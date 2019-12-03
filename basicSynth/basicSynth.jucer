@@ -40,6 +40,8 @@
       <FILE id="F2Zi3p" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
       <FILE id="Duy0zq" name="m_ADSR.cpp" compile="1" resource="0" file="Source/m_ADSR.cpp"/>
       <FILE id="aWyJEX" name="m_ADSR.h" compile="0" resource="0" file="Source/m_ADSR.h"/>
+      <FILE id="H5oUvk" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
+      <FILE id="em3WIW" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
       <FILE id="gtDk0B" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>

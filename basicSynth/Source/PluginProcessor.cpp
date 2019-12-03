@@ -47,11 +47,16 @@ AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createPa
     
     auto t_waveType = std::make_unique<AudioParameterFloat>(WT_ID, WT_NAME,0,2,0);
     
+    auto t_cutoffFreq = std::make_unique<AudioParameterFloat>(CF_ID, CF_NAME,10,20000,8000);
+    auto t_resonance = std::make_unique<AudioParameterFloat>(RES_ID, RES_NAME,1,16,4);
+    
     t_params.push_back(std::move(t_atkParam));
     t_params.push_back(std::move(t_decayParam));
     t_params.push_back(std::move(t_sustainParam));
     t_params.push_back(std::move(t_releaseParam));
     t_params.push_back(std::move(t_waveType));
+    t_params.push_back(std::move(t_cutoffFreq));
+    t_params.push_back(std::move(t_resonance));
     
     return { t_params.begin(), t_params.end() };
 }
@@ -187,12 +192,7 @@ void BasicSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
 
    
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-//    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-//    {
-//        auto* channelData = buffer.getWritePointer (channel);
-//
-//        // ..do something to the data...
-//    }
+
 }
 
 //==============================================================================

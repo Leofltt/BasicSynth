@@ -15,8 +15,7 @@
 //==============================================================================
 /*
 */
-class M_ADSR    : public Component,
-                  public Slider::Listener
+class M_ADSR    : public Component
 {
 public:
     M_ADSR(BasicSynthAudioProcessor&);
@@ -25,7 +24,6 @@ public:
     void paint (Graphics&) override;
     void resized() override;
     
-     void sliderValueChanged(Slider* slider) override;
 
 private:
     BasicSynthAudioProcessor& processor;

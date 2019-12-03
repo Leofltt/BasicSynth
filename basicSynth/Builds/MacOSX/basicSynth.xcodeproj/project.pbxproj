@@ -129,6 +129,10 @@
 			isa = PBXBuildFile;
 			fileRef = B1589265ED1B62878509292C;
 		};
+		A05FD36A35A50BB890BD6683 = {
+			isa = PBXBuildFile;
+			fileRef = D71DB76B02FD2F4B4B20B69D;
+		};
 		5B25B0AE13FD20525B825769 = {
 			isa = PBXBuildFile;
 			fileRef = 67273E9CA79BC5637F90A572;
@@ -538,6 +542,13 @@
 			path = "../../../../JUCE_User_Libraries/Maximilian/libs/maxiFFT.h";
 			sourceTree = "SOURCE_ROOT";
 		};
+		8D185D0777294F520622036E = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Filter.h;
+			path = ../../Source/Filter.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		8D3D8C94171EDF5ECD72A0B2 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -720,6 +731,13 @@
 			path = ../../Source/PluginProcessor.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		D71DB76B02FD2F4B4B20B69D = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Filter.cpp;
+			path = ../../Source/Filter.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		D76482D9FAE3272F250DCDE9 = {
 			isa = PBXFileReference;
 			lastKnownFileType = file;
@@ -740,13 +758,6 @@
 			name = CoreAudioKit.framework;
 			path = System/Library/Frameworks/CoreAudioKit.framework;
 			sourceTree = SDKROOT;
-		};
-		F11F722F6089BB8FCADB1009 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = "include_juce_audio_plugin_client_Standalone.cpp";
-			path = "../../JuceLibraryCode/include_juce_audio_plugin_client_Standalone.cpp";
-			sourceTree = "SOURCE_ROOT";
 		};
 		F4ACC1CC208E8AB1DA8E09E1 = {
 			isa = PBXFileReference;
@@ -781,6 +792,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_audio_formats.mm";
 			path = "../../JuceLibraryCode/include_juce_audio_formats.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		F11F722F6089BB8FCADB1009 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = "include_juce_audio_plugin_client_Standalone.cpp";
+			path = "../../JuceLibraryCode/include_juce_audio_plugin_client_Standalone.cpp";
 			sourceTree = "SOURCE_ROOT";
 		};
 		F9528C63BA2A25D545B1B7D6 = {
@@ -865,6 +883,8 @@
 				9CC1336BB2B8AA46FF3ECDE0,
 				B1589265ED1B62878509292C,
 				43D638CB02E8CDC649A498B5,
+				D71DB76B02FD2F4B4B20B69D,
+				8D185D0777294F520622036E,
 				0E56F51B3124A809803606D5,
 			);
 			name = Source;
@@ -1763,6 +1783,7 @@
 				A2FC31AF18C23068E25F892C,
 				EBE7606E566CF1A1D3A48AE3,
 				8EBA3CF0CD1BB04D5C70371B,
+				A05FD36A35A50BB890BD6683,
 				5B25B0AE13FD20525B825769,
 				3A180E9EB7F12A28F96FE12A,
 				99CADAFF6CA44B0B93FB7A98,

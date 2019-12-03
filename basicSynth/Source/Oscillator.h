@@ -30,7 +30,7 @@ public:
 private:
     ComboBox m_OscMenu;
     
-    ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> m_OscValue;
+    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> m_OscValue;
     
     BasicSynthAudioProcessor& processor;
 

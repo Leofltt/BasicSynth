@@ -21,8 +21,12 @@
 #define SUS_NAME "Sustain Level"
 #define REL_ID "rel_time"
 #define REL_NAME "Release Time"
-#define WT_ID "Wavetype"
+#define WT_ID "wavetype"
 #define WT_NAME "Waveform Type"
+#define CF_ID "cutoff_freq"
+#define CF_NAME "Cutoff Frequency"
+#define RES_ID "resonance"
+#define RES_NAME "Resonance"
 
 //==============================================================================
 /**

@@ -23,7 +23,7 @@ Oscillator::Oscillator(BasicSynthAudioProcessor& p) : processor(p)
     addAndMakeVisible(&m_OscMenu);
     m_OscMenu.addListener(this);
     
-    m_OscValue = new AudioProcessorValueTreeState::ComboBoxAttachment (processor.m_parameters, WT_ID, m_OscMenu);
+    m_OscValue = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment> (processor.m_parameters, WT_ID, m_OscMenu);
     
 }
 

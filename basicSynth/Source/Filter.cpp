@@ -2,7 +2,7 @@
   ==============================================================================
 
     Filter.cpp
-    Created: 2 Dec 2019 8:00:07pm
+    Created: 2 Dec 2019 8:36:01pm
     Author:  Leonardo Foletto
 
   ==============================================================================
@@ -11,12 +11,10 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Filter.h"
 
-//==============================================================================
-Filter::Filter()
-{
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
 
+//==============================================================================
+Filter::Filter(BasicSynthAudioProcessor& p) : processor(p)
+{
 }
 
 Filter::~Filter()
