@@ -13,14 +13,14 @@
 
 //==============================================================================
 BasicSynthAudioProcessorEditor::BasicSynthAudioProcessorEditor (BasicSynthAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), m_OscGUI(p), m_adsrGUI(p)
+: AudioProcessorEditor (&p), processor (p), m_OscGUI(p), m_adsrGUI(p), m_filterGUI(p)
 {
 
-    setSize (400, 300);
+    setSize (600, 300);
     
     addAndMakeVisible(&m_OscGUI);
     addAndMakeVisible(&m_adsrGUI);
-    
+    addAndMakeVisible(&m_filterGUI);
 }
 
 BasicSynthAudioProcessorEditor::~BasicSynthAudioProcessorEditor()
@@ -45,6 +45,7 @@ void BasicSynthAudioProcessorEditor::resized()
     
     m_OscGUI.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     m_adsrGUI.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    m_filterGUI.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
 
 }
 

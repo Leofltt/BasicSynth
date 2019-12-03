@@ -14,6 +14,7 @@
 #include "PluginProcessor.h"
 #include "Oscillator.h"
 #include "m_ADSR.h"
+#include "Filter.h"
 
 //==============================================================================
 /**
@@ -35,6 +36,7 @@ private:
     
     Oscillator m_OscGUI;
     M_ADSR m_adsrGUI;
+    Filter m_filterGUI;
     
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BasicSynthAudioProcessorEditor)

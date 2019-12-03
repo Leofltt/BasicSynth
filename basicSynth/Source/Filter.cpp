@@ -15,6 +15,30 @@
 //==============================================================================
 Filter::Filter(BasicSynthAudioProcessor& p) : processor(p)
 {
+    setSize(200, 200);
+    
+    m_filterMenu.addItem("Low Pass", 1);
+    m_filterMenu.addItem("High Pass", 2);
+    m_filterMenu.addItem("Band Pass", 3);
+    m_filterMenu.setJustificationType(Justification::centred);
+    addAndMakeVisible(&m_filterMenu);
+    m_ftValue = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(processor.m_parameters, FT_ID, m_filterMenu);
+    
+    cf.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    cf.setRange(10.0f, 20000.0f);
+    cf.setValue(1000.0f);
+    cf.setTextBoxStyle(Slider::NoTextBox, true, 40, 20);
+    addAndMakeVisible(&cf);
+    m_CutoffValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.m_parameters, CF_ID, cf);
+    cf.setSkewFactor(2);
+    
+    res.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    res.setRange(0, 16);
+    res.setValue(2);
+    res.setTextBoxStyle(Slider::NoTextBox, true, 40, 20);
+    addAndMakeVisible(&res);
+    m_ResonanceValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.m_parameters, RES_ID, res);
+    
 }
 
 Filter::~Filter()
@@ -23,27 +47,25 @@ Filter::~Filter()
 
 void Filter::paint (Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
-
-    g.setColour (Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    g.setColour (Colours::white);
-    g.setFont (14.0f);
-    g.drawText ("Filter", getLocalBounds(),
-                Justification::centred, true);   // draw some placeholder text
+    Rectangle<int> title (0,10,getWidth(), 20);
+    
+    g.fillAll(Colours::black);
+    g.setColour(Colours::white);
+    g.drawText("Filter",title, Justification::centredTop);
+    
+    Rectangle<float> area (25,25,150,150);
+    
+    g.setColour(Colours::yellow);
+    g.drawRoundedRectangle(area, 20.0f, 1.0f);
 }
 
 void Filter::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
-
+    Rectangle<int> area = getLocalBounds().reduced(40);
+    
+    m_filterMenu.setBounds(area.removeFromTop(20));
+    cf.setBounds(30, 100, 70, 70);
+    res.setBounds(100, 100, 70, 70);
+    
+    
 }

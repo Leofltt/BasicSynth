@@ -48,16 +48,31 @@ M_ADSR::~M_ADSR()
 
 void M_ADSR::paint (Graphics& g)
 {
+    Rectangle<int> title (0,10,getWidth(),20);
+    
     g.fillAll(Colours::black);
+    g.setColour(Colours::white);
+    g.drawText("Envelope", title, Justification::centredTop);
+    g.drawText("Attack", 53, 150, 20, 20, Justification::centredTop);
+    g.drawText("Decay", 77, 150, 20, 20, Justification::centredTop);
+    g.drawText("Sustain", 103, 150, 20, 20, Justification::centredTop);
+    g.drawText("Release", 128, 150, 20, 20, Justification::centredTop);
+    
+    Rectangle<float> area (25,25,150,150);
+    
+    g.setColour(Colours::yellow);
+    g.drawRoundedRectangle(area, 20.0f, 1.0f);
 }
 
 void M_ADSR::resized()
 {
-    //Rectangle<int> area = getLocalBounds().reduced(40);
+    Rectangle<int> area = getLocalBounds().reduced(50);
     
-    m_AtkSlider.setBounds(10,10,40,100);
-    m_DecaySlider.setBounds(60,10,40,100);
-    m_SustainSlider.setBounds(110,10,40,100);
-    m_ReleaseSlider.setBounds(160,10,40,100);
- 
+    int sliderWidth = 25;
+    int sliderHeight = 175;
+    
+    m_AtkSlider.setBounds(area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
+    m_DecaySlider.setBounds(area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
+    m_SustainSlider.setBounds(area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
+    m_ReleaseSlider.setBounds(area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
 }

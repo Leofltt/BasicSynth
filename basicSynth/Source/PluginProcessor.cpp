@@ -48,7 +48,9 @@ AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createPa
     auto t_waveType = std::make_unique<AudioParameterFloat>(WT_ID, WT_NAME,0,2,0);
     
     auto t_cutoffFreq = std::make_unique<AudioParameterFloat>(CF_ID, CF_NAME,10,20000,8000);
-    auto t_resonance = std::make_unique<AudioParameterFloat>(RES_ID, RES_NAME,1,16,4);
+    auto t_resonance = std::make_unique<AudioParameterFloat>(RES_ID, RES_NAME,0,16,2);
+    
+    auto t_filterType = std::make_unique<AudioParameterFloat>(FT_ID, FT_NAME,0,2,0);
     
     t_params.push_back(std::move(t_atkParam));
     t_params.push_back(std::move(t_decayParam));
@@ -57,6 +59,7 @@ AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createPa
     t_params.push_back(std::move(t_waveType));
     t_params.push_back(std::move(t_cutoffFreq));
     t_params.push_back(std::move(t_resonance));
+    t_params.push_back(std::move(t_filterType));
     
     return { t_params.begin(), t_params.end() };
 }
@@ -179,6 +182,7 @@ void BasicSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
         {
         synthvox->getADSR(m_parameters.getRawParameterValue(ATK_ID),m_parameters.getRawParameterValue(DEC_ID),m_parameters.getRawParameterValue(SUS_ID),m_parameters.getRawParameterValue(REL_ID));
             synthvox->getWT(m_parameters.getRawParameterValue(WT_ID));
+            synthvox->getFilter(m_parameters.getRawParameterValue(FT_ID),m_parameters.getRawParameterValue(CF_ID),m_parameters.getRawParameterValue(RES_ID));
         }
     }
     

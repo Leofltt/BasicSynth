@@ -29,9 +29,12 @@ private:
     
     Slider cf;
     Slider res;
+    ComboBox m_filterMenu;
     
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> m_CutoffValue;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> m_ResonanceValue;
 
+    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> m_ftValue;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Filter)
 };

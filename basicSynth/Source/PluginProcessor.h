@@ -27,6 +27,8 @@
 #define CF_NAME "Cutoff Frequency"
 #define RES_ID "resonance"
 #define RES_NAME "Resonance"
+#define FT_ID "filter_type"
+#define FT_NAME "Filter Type"
 
 //==============================================================================
 /**
