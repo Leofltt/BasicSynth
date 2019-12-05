@@ -81,7 +81,10 @@ public:
     AudioProcessorValueTreeState m_parameters;
     AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     
+    void updateFilterParams();
+    
 private:
+    dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, dsp::StateVariableFilter::Parameters<float>> svf;
     
     Synthesiser synth;
     SynthVoice* synthvox;

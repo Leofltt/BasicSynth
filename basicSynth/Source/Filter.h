@@ -28,6 +28,7 @@ public:
 private:
     BasicSynthAudioProcessor& processor;
     
+    
     Slider cf;
     Slider res;
     ComboBox m_filterMenu;

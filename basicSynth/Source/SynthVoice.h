@@ -35,27 +35,7 @@ public:
     {
         return m_env1.adsr(setWT(), m_env1.trigger);
     }
-    
-    double setFilter()
-    {
-        if(t_ft == 0)
-            return m_filter1.lores(setADSR(),cutoff, resonance);
-        if(t_ft == 1)
-            return m_filter1.hires(setADSR(),cutoff, resonance);
-        if(t_ft == 2)
-            return m_filter1.bandpass(setADSR(),cutoff, resonance);
-        else
-            return m_filter1.lores(setADSR(),cutoff, resonance);;
-    }
-    
-    void getFilter(float* ft, float* cf, float* res)
-    {
-        t_wt = *ft;
-        cutoff = *cf;
-        resonance = *res;
-        
-    }
-    
+
     double setWT()
     {
         if(t_wt == 0)
@@ -108,7 +88,7 @@ public:
             
             for (int chan = 0; chan < outputBuffer.getNumChannels(); ++chan)
             {
-                outputBuffer.addSample(chan, startSample, setFilter() * amplitude);
+                outputBuffer.addSample(chan, startSample, setADSR() * amplitude);
             }
             
             ++startSample;
@@ -117,14 +97,12 @@ public:
     }
 
 private:
+    
     double amplitude;
     double frequency;
     maxiOsc m_osc1;
     maxiEnv m_env1;
-    maxiFilter m_filter1;
     float t_wt;
-    float t_ft;
-    float cutoff;
-    float resonance;
+
     
 };

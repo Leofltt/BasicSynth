@@ -193,6 +193,10 @@
 			isa = PBXBuildFile;
 			fileRef = 6D10F862D153365ED9C032B6;
 		};
+		C61FC8443D3BE8BEBAB4465C = {
+			isa = PBXBuildFile;
+			fileRef = 3461122D0BDE5CB0183D6C63;
+		};
 		0E16BE69AC9CD57831C19174 = {
 			isa = PBXBuildFile;
 			fileRef = 858934AB10D11364C35DFA26;
@@ -331,6 +335,13 @@
 			name = "juce_graphics";
 			path = "/Applications/JUCE/modules/juce_graphics";
 			sourceTree = "<absolute>";
+		};
+		3461122D0BDE5CB0183D6C63 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.objcpp;
+			name = "include_juce_dsp.mm";
+			path = "../../JuceLibraryCode/include_juce_dsp.mm";
+			sourceTree = "SOURCE_ROOT";
 		};
 		3A531C5D40166B8818400A4A = {
 			isa = PBXFileReference;
@@ -576,6 +587,13 @@
 			name = maxiMFCC.h;
 			path = "../../../../JUCE_User_Libraries/Maximilian/libs/maxiMFCC.h";
 			sourceTree = "SOURCE_ROOT";
+		};
+		96B93954C95EF6FEF3B5655D = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = "juce_dsp";
+			path = "/Applications/JUCE/modules/juce_dsp";
+			sourceTree = "<absolute>";
 		};
 		9955C65AB7DA106477B94A02 = {
 			isa = PBXFileReference;
@@ -910,6 +928,7 @@
 				1C576266459DC0D01B15369C,
 				D76482D9FAE3272F250DCDE9,
 				59ABF1B750604D326A5BDA79,
+				96B93954C95EF6FEF3B5655D,
 				9CD974A1AAA1EEB8B04896B4,
 				33F160471D0D7B15C0D48FF1,
 				8DB61FFB02D7F38C15CC9032,
@@ -938,6 +957,7 @@
 				83736107D7595AE12FD143BA,
 				134865063D5F8B3D6C3C1D84,
 				6D10F862D153365ED9C032B6,
+				3461122D0BDE5CB0183D6C63,
 				858934AB10D11364C35DFA26,
 				AE65A223CB5D438AC5E0E54F,
 				4B8C6A88B7FC0D09C7744B9D,
@@ -1794,6 +1814,7 @@
 				4C1F4C65028D047793BFB661,
 				551C7F3EA5DB8DB1FAC2F9B8,
 				BE1DD7505CF99948A9863DD5,
+				C61FC8443D3BE8BEBAB4465C,
 				0E16BE69AC9CD57831C19174,
 				C4FF987093FA28AAA0D5C6F0,
 				0A82457D62CD6CCE23557F15,

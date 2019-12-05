@@ -130,6 +130,24 @@ void BasicSynthAudioProcessor::changeProgramName (int index, const String& newNa
 {
 }
 
+void BasicSynthAudioProcessor::updateFilterParams()
+{
+    int menuChoice = *m_parameters.getRawParameterValue(FT_ID);
+    float coff = *m_parameters.getRawParameterValue(CF_ID);
+    float reso = *m_parameters.getRawParameterValue(RES_ID);
+    
+    if (menuChoice == 0)
+        svf.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
+    else if (menuChoice == 1)
+        svf.state->type = dsp::StateVariableFilter::Parameters<float>::Type::highPass;
+    else if (menuChoice == 2)
+        svf.state->type = dsp::StateVariableFilter::Parameters<float>::Type::bandPass;
+    else
+        svf.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
+    
+    svf.state->setCutOffFrequency(lastSR, coff, reso);
+}
+
 //==============================================================================
 void BasicSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
@@ -141,6 +159,14 @@ void BasicSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     ignoreUnused(samplesPerBlock);
     lastSR = sampleRate;
     synth.setCurrentPlaybackSampleRate(lastSR);
+    dsp::ProcessSpec spec;
+    spec.numChannels = getMainBusNumOutputChannels();
+    spec.sampleRate = lastSR;
+    spec.maximumBlockSize = samplesPerBlock;
+    
+    svf.reset();
+    updateFilterParams();
+    svf.prepare(spec);
 }
 
 void BasicSynthAudioProcessor::releaseResources()
@@ -182,13 +208,13 @@ void BasicSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
         {
         synthvox->getADSR(m_parameters.getRawParameterValue(ATK_ID),m_parameters.getRawParameterValue(DEC_ID),m_parameters.getRawParameterValue(SUS_ID),m_parameters.getRawParameterValue(REL_ID));
             synthvox->getWT(m_parameters.getRawParameterValue(WT_ID));
-            synthvox->getFilter(m_parameters.getRawParameterValue(FT_ID),m_parameters.getRawParameterValue(CF_ID),m_parameters.getRawParameterValue(RES_ID));
         }
     }
     
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
+    
 
    
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
@@ -196,6 +222,9 @@ void BasicSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
 
    
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    dsp::AudioBlock<float> ablock (buffer);
+    updateFilterParams();
+    svf.process(dsp::ProcessContextReplacing<float> (ablock));
 
 }
 
