@@ -60,7 +60,7 @@ void M_ADSR::paint (Graphics& g)
     
     Rectangle<float> area (25,25,150,150);
     
-    g.setColour(Colours::yellow);
+    g.setColour(Colours::seashell);
     g.drawRoundedRectangle(area, 20.0f, 1.0f);
 }
 

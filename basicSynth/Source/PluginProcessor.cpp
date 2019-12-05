@@ -40,15 +40,15 @@ AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createPa
     
     std::vector<std::unique_ptr<RangedAudioParameter>> t_params;
     
-    auto t_atkParam = std::make_unique<AudioParameterFloat>(ATK_ID, ATK_NAME, 0.001f, 5000.0f,0.01f);
-    auto t_decayParam = std::make_unique<AudioParameterFloat>(DEC_ID, DEC_NAME, 0.001f, 5000.0f,150.0f);
+    auto t_atkParam = std::make_unique<AudioParameterFloat>(ATK_ID, ATK_NAME, 0.001f, 5000.0f,0.1f);
+    auto t_decayParam = std::make_unique<AudioParameterFloat>(DEC_ID, DEC_NAME, 0.001f, 5000.0f,500.0f);
     auto t_sustainParam = std::make_unique<AudioParameterFloat>(SUS_ID, SUS_NAME, 0.001f, 1.0f,0.7f);
-    auto t_releaseParam = std::make_unique<AudioParameterFloat>(REL_ID, REL_NAME, 0.001f, 5000.0f,0.01f);
+    auto t_releaseParam = std::make_unique<AudioParameterFloat>(REL_ID, REL_NAME, 0.001f, 5000.0f,0.1f);
     
     auto t_waveType = std::make_unique<AudioParameterFloat>(WT_ID, WT_NAME,0,2,0);
     
-    auto t_cutoffFreq = std::make_unique<AudioParameterFloat>(CF_ID, CF_NAME,10,20000,8000);
-    auto t_resonance = std::make_unique<AudioParameterFloat>(RES_ID, RES_NAME,0,16,2);
+    auto t_cutoffFreq = std::make_unique<AudioParameterFloat>(CF_ID, CF_NAME,10.0f,19000.0f,1500.0f);
+    auto t_resonance = std::make_unique<AudioParameterFloat>(RES_ID, RES_NAME,0.0f,5.0f,1.0f);
     
     auto t_filterType = std::make_unique<AudioParameterFloat>(FT_ID, FT_NAME,0,2,0);
     

@@ -21,7 +21,6 @@ Oscillator::Oscillator(BasicSynthAudioProcessor& p) : processor(p)
     m_OscMenu.addItem("Saw", 2);
     m_OscMenu.addItem("Square", 3);
     addAndMakeVisible(&m_OscMenu);
-    m_OscMenu.addListener(this);
     
     m_OscValue = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment> (processor.m_parameters, WT_ID, m_OscMenu);
     
@@ -41,7 +40,7 @@ void Oscillator::paint (Graphics& g)
     
     Rectangle<float> area (25,25,150,150);
     
-    g.setColour(Colours::yellow);
+    g.setColour(Colours::darkseagreen);
     g.drawRoundedRectangle(area, 20.0f, 1.0f);
     
 }

@@ -122,8 +122,8 @@ private:
     maxiOsc m_osc1;
     maxiEnv m_env1;
     maxiFilter m_filter1;
-    int t_wt;
-    int t_ft;
+    float t_wt;
+    float t_ft;
     float cutoff;
     float resonance;
     

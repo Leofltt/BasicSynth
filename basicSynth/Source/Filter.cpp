@@ -25,16 +25,16 @@ Filter::Filter(BasicSynthAudioProcessor& p) : processor(p)
     m_ftValue = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(processor.m_parameters, FT_ID, m_filterMenu);
     
     cf.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    cf.setRange(10.0f, 20000.0f);
-    cf.setValue(1000.0f);
+    cf.setRange(10.0f, 19000.0f);
+    cf.setSkewFactorFromMidPoint(1500.0f);
     cf.setTextBoxStyle(Slider::NoTextBox, true, 40, 20);
+    cf.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(&cf);
     m_CutoffValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.m_parameters, CF_ID, cf);
-    cf.setSkewFactor(2);
     
     res.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    res.setRange(0, 16);
-    res.setValue(2);
+    res.setPopupDisplayEnabled(true, true, this);
+    res.setRange(0, 5);
     res.setTextBoxStyle(Slider::NoTextBox, true, 40, 20);
     addAndMakeVisible(&res);
     m_ResonanceValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.m_parameters, RES_ID, res);
@@ -55,7 +55,7 @@ void Filter::paint (Graphics& g)
     
     Rectangle<float> area (25,25,150,150);
     
-    g.setColour(Colours::yellow);
+    g.setColour(Colours::seagreen);
     g.drawRoundedRectangle(area, 20.0f, 1.0f);
 }
 

@@ -23,6 +23,7 @@ public:
 
     void paint (Graphics&) override;
     void resized() override;
+    
 
 private:
     BasicSynthAudioProcessor& processor;
