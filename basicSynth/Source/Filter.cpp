@@ -55,7 +55,7 @@ void Filter::paint (Graphics& g)
     
     Rectangle<float> area (25,25,150,150);
     
-    g.setColour(Colours::seagreen);
+    g.setColour(Colours::orange);
     g.drawRoundedRectangle(area, 20.0f, 1.0f);
 }
 

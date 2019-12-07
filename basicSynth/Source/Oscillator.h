@@ -29,8 +29,14 @@ public:
 
 private:
     ComboBox m_OscMenu;
+    ComboBox m_OscMenu2;
     
-    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> m_OscValue;
+    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> m_Osc1Value;
+    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> m_Osc2Value;
+    
+    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> m_BlendValue;
+    
+    Slider m_BlendSlider;
     
     BasicSynthAudioProcessor& processor;
 

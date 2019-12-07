@@ -12,6 +12,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "maximilian.h"
+#include <iterator>
+
 
 class SynthVoice : public SynthesiserVoice
 {
@@ -22,47 +24,59 @@ public:
         return dynamic_cast<SynthSound*>(sound) != nullptr;
     }
     
-    void getADSR(float* atk, float* decay, float* sustain, float* release)
+    void setADSRsampleRate(double sr)
     {
-        m_env1.setAttack(*atk);
-        m_env1.setDecay(*decay);
-        m_env1.setSustain(*sustain);
-        m_env1.setRelease(*release);
+        m_env1.setSampleRate(sr);
         
     }
     
-    double setADSR()
+    void getADSR(float* atk, float* decay, float* sustain, float* release)
     {
-        return m_env1.adsr(setWT(), m_env1.trigger);
+        env1_params.attack = 0.001 * *atk;
+        env1_params.decay = 0.001 * *decay;
+        env1_params.sustain = *sustain;
+        env1_params.release = 0.001 * *release;
+
     }
 
-    double setWT()
+    double setWT(int i)
     {
-        if(t_wt == 0)
-            return m_osc1.sinewave(frequency);
-        if(t_wt == 1)
-            return m_osc1.saw(frequency);
-        if(t_wt == 2)
-            return m_osc1.square(frequency);
+        if(wt[i] == 0)
+            return v_osc[i].sinewave(frequency);
+        if(wt[i] == 1)
+            return v_osc[i].saw(frequency);
+        if(wt[i] == 2)
+            return v_osc[i].square(frequency);
         else
-            return m_osc1.sinewave(frequency);
+            return v_osc[i].sinewave(frequency);
     }
     
-    void getWT(float* wt)
+    double setOscillators()
     {
-        t_wt = *wt;
+        return setWT(0) * (1 - m_blend) + setWT(1) * m_blend;
     }
+    
+    void getWT(float* wt1, float *wt2)
+    {
+        wt[0] = *wt1;
+        wt[1] = *wt2;
+    }
+    
+    void getBlend(float* blend)
+       {
+           m_blend = *blend;
+       }
     
     void startNote(int midinotenumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPos)
     {
-        m_env1.trigger = 1;
+        m_env1.noteOn();
         amplitude = velocity;
         frequency = MidiMessage::getMidiNoteInHertz(midinotenumber);
     }
     
     void stopNote(float velocity, bool allowTailOff)
     {
-        m_env1.trigger = 0;
+        m_env1.noteOff();
         
         if (velocity == 0)
            clearCurrentNote();
@@ -80,7 +94,7 @@ public:
     
     void renderNextBlock (AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
     {
-        
+        m_env1.setParameters(env1_params);
         
         for (int sam = 0; sam < numSamples; ++sam)
         {
@@ -88,7 +102,7 @@ public:
             
             for (int chan = 0; chan < outputBuffer.getNumChannels(); ++chan)
             {
-                outputBuffer.addSample(chan, startSample, setADSR() * amplitude);
+                outputBuffer.addSample(chan, startSample, m_env1.getNextSample() * setOscillators() * amplitude);
             }
             
             ++startSample;
@@ -100,9 +114,16 @@ private:
     
     double amplitude;
     double frequency;
-    maxiOsc m_osc1;
-    maxiEnv m_env1;
-    float t_wt;
+    double m_blend;
+    
+    maxiOsc m_osc;
+    
+    ADSR m_env1;
+    ADSR::Parameters env1_params;
 
+    std::vector <maxiOsc> v_osc {m_osc, m_osc};
+    std::vector <float> wt {0,0};
+
+    
     
 };

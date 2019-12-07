@@ -21,14 +21,18 @@
 #define SUS_NAME "Sustain Level"
 #define REL_ID "rel_time"
 #define REL_NAME "Release Time"
-#define WT_ID "wavetype"
-#define WT_NAME "Waveform Type"
+#define WT1_ID "wavetype osc1"
+#define WT1_NAME "Waveform Type osc1"
+#define WT2_ID "wavetype osc2"
+#define WT2_NAME "Waveform Type osc2"
 #define CF_ID "cutoff_freq"
 #define CF_NAME "Cutoff Frequency"
 #define RES_ID "resonance"
 #define RES_NAME "Resonance"
 #define FT_ID "filter_type"
 #define FT_NAME "Filter Type"
+#define BL_ID "osc_mix"
+#define BL_NAME "Oscillator Mix"
 
 //==============================================================================
 /**

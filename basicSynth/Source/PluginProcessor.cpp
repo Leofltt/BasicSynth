@@ -29,7 +29,7 @@ m_parameters(*this, nullptr, "PARAMETERS", createParameterLayout())
     m_parameters.state = ValueTree("savedParams");
     synth.clearVoices();
     
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 8; i++)
         synth.addVoice(new SynthVoice());
     
     synth.clearSounds();
@@ -45,12 +45,16 @@ AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createPa
     auto t_sustainParam = std::make_unique<AudioParameterFloat>(SUS_ID, SUS_NAME, 0.001f, 1.0f,0.7f);
     auto t_releaseParam = std::make_unique<AudioParameterFloat>(REL_ID, REL_NAME, 0.001f, 5000.0f,0.1f);
     
-    auto t_waveType = std::make_unique<AudioParameterFloat>(WT_ID, WT_NAME,0,2,0);
+    auto t_waveType = std::make_unique<AudioParameterFloat>(WT1_ID, WT1_NAME,0,2,0);
+    
+    auto t_waveType2 = std::make_unique<AudioParameterFloat>(WT2_ID, WT2_NAME,0,2,0);
     
     auto t_cutoffFreq = std::make_unique<AudioParameterFloat>(CF_ID, CF_NAME,10.0f,19000.0f,1500.0f);
     auto t_resonance = std::make_unique<AudioParameterFloat>(RES_ID, RES_NAME,0.0f,5.0f,1.0f);
     
     auto t_filterType = std::make_unique<AudioParameterFloat>(FT_ID, FT_NAME,0,2,0);
+    
+    auto t_blend = std::make_unique<AudioParameterFloat>(BL_ID, BL_NAME,0,1,0);
     
     t_params.push_back(std::move(t_atkParam));
     t_params.push_back(std::move(t_decayParam));
@@ -60,6 +64,9 @@ AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createPa
     t_params.push_back(std::move(t_cutoffFreq));
     t_params.push_back(std::move(t_resonance));
     t_params.push_back(std::move(t_filterType));
+    t_params.push_back(std::move(t_waveType2));
+    t_params.push_back(std::move(t_blend));
+    
     
     return { t_params.begin(), t_params.end() };
 }
@@ -206,8 +213,10 @@ void BasicSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     {
         if((synthvox = dynamic_cast<SynthVoice*>(synth.getVoice(i))))
         {
+            synthvox->setADSRsampleRate(lastSR);
         synthvox->getADSR(m_parameters.getRawParameterValue(ATK_ID),m_parameters.getRawParameterValue(DEC_ID),m_parameters.getRawParameterValue(SUS_ID),m_parameters.getRawParameterValue(REL_ID));
-            synthvox->getWT(m_parameters.getRawParameterValue(WT_ID));
+            synthvox->getWT(m_parameters.getRawParameterValue(WT1_ID),m_parameters.getRawParameterValue(WT2_ID));
+            synthvox->getBlend(m_parameters.getRawParameterValue(BL_ID));
         }
     }
     
