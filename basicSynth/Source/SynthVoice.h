@@ -65,6 +65,15 @@ public:
        {
            m_blend = *blend;
        }
+
+    void getPitchBend(int pw)
+    {
+        if (pw >= 8192)
+            m_pitchBend = float(pw - 8192) / (16383 - 8192);
+        
+        else
+            m_pitchBend = float(8192 - pw) / -8192;
+    }
     
     void startNote(int midinotenumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPos)
     {
@@ -83,7 +92,10 @@ public:
     
     void pitchWheelMoved (int newPitchWheelValue)
     {
+
+        getPitchBend(newPitchWheelValue);
         
+        frequency  *= std::pow(2, m_pitchBend * 2 * 100 / 1200 );
     }
     
     void controllerMoved (int controllerNumber, int newControllerValue)
@@ -114,6 +126,7 @@ private:
     double amplitude;
     double frequency;
     double m_blend;
+    double m_pitchBend;
     
     maxiOsc m_osc;
     
