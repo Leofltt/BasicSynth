@@ -67,6 +67,7 @@ void Oscillator::resized()
     m_OscMenu2.setBounds(area.removeFromTop(20));
     
     m_BlendSlider.setBounds(area.removeFromTop(75));
+   
     
 
 }

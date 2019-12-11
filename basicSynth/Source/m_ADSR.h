@@ -27,16 +27,16 @@ public:
 
 private:
     BasicSynthAudioProcessor& processor;
+    
+    Slider m_AtkSlider;
+    Slider m_DecaySlider;
+    Slider m_SustainSlider;
+    Slider m_ReleaseSlider;
 
-        std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> m_AtkValue;
-        std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> m_DecValue;
-        std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> m_SusValue;
-        std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> m_RelValue;
-
-        Slider m_AtkSlider;
-        Slider m_DecaySlider;
-        Slider m_SustainSlider;
-        Slider m_ReleaseSlider;
+    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> m_AtkValue;
+    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> m_DecValue;
+    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> m_SusValue;
+    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> m_RelValue;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (M_ADSR)
 };

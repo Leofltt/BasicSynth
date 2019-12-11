@@ -12,7 +12,6 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "maximilian.h"
-#include <iterator>
 
 
 class SynthVoice : public SynthesiserVoice
