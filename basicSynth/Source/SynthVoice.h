@@ -71,11 +71,8 @@ public:
 
     void getPitchBend(int pw)
     {
-        if (pw >= 8192)
-            m_pitchBend.store(float(pw - 8192) / (16383 - 8192));
-        
-        else
-            m_pitchBend.store(float(8192 - pw) / -8192);
+        float pb = (pw * 2 / 16383) - 1;
+        m_pitchBend.store(pb);
     }
     
     void startNote(int midinotenumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPos)
