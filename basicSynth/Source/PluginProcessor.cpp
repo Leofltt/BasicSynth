@@ -40,10 +40,10 @@ AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createPa
     
     std::vector<std::unique_ptr<RangedAudioParameter>> t_params;
     
-    auto t_atkParam = std::make_unique<AudioParameterFloat>(ATK_ID, ATK_NAME, 0.001f, 5000.0f,0.1f);
-    auto t_decayParam = std::make_unique<AudioParameterFloat>(DEC_ID, DEC_NAME, 0.001f, 5000.0f,500.0f);
+    auto t_atkParam = std::make_unique<AudioParameterFloat>(ATK_ID, ATK_NAME, 0.001f, 5.0f,0.1f);
+    auto t_decayParam = std::make_unique<AudioParameterFloat>(DEC_ID, DEC_NAME, 0.001f, 5.0f,0.5f);
     auto t_sustainParam = std::make_unique<AudioParameterFloat>(SUS_ID, SUS_NAME, 0.001f, 1.0f,0.7f);
-    auto t_releaseParam = std::make_unique<AudioParameterFloat>(REL_ID, REL_NAME, 0.001f, 5000.0f,0.1f);
+    auto t_releaseParam = std::make_unique<AudioParameterFloat>(REL_ID, REL_NAME, 0.001f, 5.0f,0.1f);
     
     auto t_waveType = std::make_unique<AudioParameterFloat>(WT1_ID, WT1_NAME,0,2,0);
     

@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="JCuGvG" name="basicSynth" projectType="audioplug" jucerVersion="5.4.5"
               pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
-              companyName="Leo Foletto">
+              companyName="Leo Foletto" cppLanguageStandard="17">
   <MAINGROUP id="Y2XnVU" name="basicSynth">
     <GROUP id="{008273DA-B577-8076-3FD7-4122F0F91A43}" name="Source">
       <GROUP id="{0A3ECCC9-054A-4E40-2D73-49FC003ABF6A}" name="Maximilian">

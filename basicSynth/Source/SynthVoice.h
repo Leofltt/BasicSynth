@@ -31,28 +31,28 @@ public:
     
     void getADSR(float* atk, float* decay, float* sustain, float* release)
     {
-        env1_params.attack = 0.001 * *atk;
-        env1_params.decay = 0.001 * *decay;
+        env1_params.attack =  *atk;
+        env1_params.decay =  *decay;
         env1_params.sustain = *sustain;
-        env1_params.release = 0.001 * *release;
+        env1_params.release =  *release;
 
     }
 
     double setWT(int i)
     {
         if(wt[i] == 0)
-            return v_osc[i].sinewave(frequency);
+            return v_osc[i].sinewave(frequency.load());
         if(wt[i] == 1)
-            return v_osc[i].saw(frequency);
+            return v_osc[i].saw(frequency.load());
         if(wt[i] == 2)
-            return v_osc[i].square(frequency);
+            return v_osc[i].square(frequency.load());
         else
-            return v_osc[i].sinewave(frequency);
+            return v_osc[i].sinewave(frequency.load());
     }
     
     double setOscillators()
     {
-        return setWT(0) * (1 - m_blend) + setWT(1) * m_blend;
+        return setWT(0) * (1 - m_blend.load()) + setWT(1) * m_blend.load();
     }
     
     void getWT(float* wt1, float *wt2)
@@ -63,23 +63,23 @@ public:
     
     void getBlend(float* blend)
        {
-           m_blend = *blend;
+           m_blend.store(*blend);
        }
 
     void getPitchBend(int pw)
     {
         if (pw >= 8192)
-            m_pitchBend = float(pw - 8192) / (16383 - 8192);
+            m_pitchBend.store(float(pw - 8192) / (16383 - 8192));
         
         else
-            m_pitchBend = float(8192 - pw) / -8192;
+            m_pitchBend.store(float(8192 - pw) / -8192);
     }
     
     void startNote(int midinotenumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPos)
     {
         m_env1.noteOn();
-        amplitude = velocity;
-        frequency = MidiMessage::getMidiNoteInHertz(midinotenumber);
+        amplitude.store(velocity);
+        frequency.store(MidiMessage::getMidiNoteInHertz(midinotenumber));
     }
     
     void stopNote(float velocity, bool allowTailOff)
@@ -95,7 +95,9 @@ public:
 
         getPitchBend(newPitchWheelValue);
         
-        frequency  *= std::pow(2, m_pitchBend * 2 * 100 / 1200 );
+        auto oldF = frequency.load();
+        
+        frequency.store(oldF  * std::pow(2, m_pitchBend.load() * 2 * 100 / 1200 ));
     }
     
     void controllerMoved (int controllerNumber, int newControllerValue)
@@ -113,7 +115,7 @@ public:
             
             for (int chan = 0; chan < outputBuffer.getNumChannels(); ++chan)
             {
-                outputBuffer.addSample(chan, startSample, m_env1.getNextSample() * setOscillators() * amplitude);
+                outputBuffer.addSample(chan, startSample, m_env1.getNextSample() * setOscillators() * amplitude.load());
             }
             
             ++startSample;
@@ -123,10 +125,11 @@ public:
 
 private:
     
-    double amplitude;
-    double frequency;
-    double m_blend;
-    double m_pitchBend;
+    std::atomic<double> amplitude;
+    std::atomic<double> frequency;
+    std::atomic<double> m_blend;
+    std::atomic<double> m_pitchBend;
+    static_assert(std::atomic<double>::is_always_lock_free);
     
     maxiOsc m_osc;
     
