@@ -40,6 +40,9 @@ AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createPa
     
     std::vector<std::unique_ptr<RangedAudioParameter>> t_params;
     
+    auto filterRange = NormalisableRange<float> (10.0f, 19000.0f);
+    filterRange.setSkewForCentre(1000);
+    
     auto t_atkParam = std::make_unique<AudioParameterFloat>(ATK_ID, ATK_NAME, 0.001f, 5.0f,0.1f);
     auto t_decayParam = std::make_unique<AudioParameterFloat>(DEC_ID, DEC_NAME, 0.001f, 5.0f,0.5f);
     auto t_sustainParam = std::make_unique<AudioParameterFloat>(SUS_ID, SUS_NAME, 0.001f, 1.0f,0.7f);
@@ -49,7 +52,7 @@ AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createPa
     
     auto t_waveType2 = std::make_unique<AudioParameterFloat>(WT2_ID, WT2_NAME,0,2,0);
     
-    auto t_cutoffFreq = std::make_unique<AudioParameterFloat>(CF_ID, CF_NAME,10.0f,19000.0f,1500.0f);
+    auto t_cutoffFreq = std::make_unique<AudioParameterFloat>(CF_ID, CF_NAME,filterRange, 1000.0f);
     auto t_resonance = std::make_unique<AudioParameterFloat>(RES_ID, RES_NAME,0.0f,5.0f,1.0f);
     
     auto t_filterType = std::make_unique<AudioParameterFloat>(FT_ID, FT_NAME,0,2,0);

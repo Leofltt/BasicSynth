@@ -40,19 +40,22 @@ public:
 
     double setWT(int i)
     {
+        auto freq = frequency.load();
+        
         if(wt[i] == 0)
-            return v_osc[i].sinewave(frequency.load());
+            return v_osc[i].sinewave(freq);
         if(wt[i] == 1)
-            return v_osc[i].saw(frequency.load());
+            return v_osc[i].saw(freq);
         if(wt[i] == 2)
-            return v_osc[i].square(frequency.load());
+            return v_osc[i].square(freq);
         else
-            return v_osc[i].sinewave(frequency.load());
+            return v_osc[i].sinewave(freq);
     }
     
     double setOscillators()
     {
-        return setWT(0) * (1 - m_blend.load()) + setWT(1) * m_blend.load();
+        auto bl = m_blend.load();
+        return setWT(0) * (1 - bl) + setWT(1) * bl;
     }
     
     void getWT(float* wt1, float *wt2)
@@ -96,8 +99,9 @@ public:
         getPitchBend(newPitchWheelValue);
         
         auto oldF = frequency.load();
+        auto pB = m_pitchBend.load();
         
-        frequency.store(oldF  * std::pow(2, m_pitchBend.load() * 2 * 100 / 1200 ));
+        frequency.store(oldF  * std::pow(2, pB * 2 * 100 / 1200 ));
     }
     
     void controllerMoved (int controllerNumber, int newControllerValue)
@@ -112,10 +116,11 @@ public:
         for (int sam = 0; sam < numSamples; ++sam)
         {
            
+            auto amp = amplitude.load();
             
             for (int chan = 0; chan < outputBuffer.getNumChannels(); ++chan)
             {
-                outputBuffer.addSample(chan, startSample, m_env1.getNextSample() * setOscillators() * amplitude.load());
+                outputBuffer.addSample(chan, startSample, m_env1.getNextSample() * setOscillators() * amp);
             }
             
             ++startSample;

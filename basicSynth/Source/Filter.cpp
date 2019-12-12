@@ -26,7 +26,7 @@ Filter::Filter(BasicSynthAudioProcessor& p) : processor(p)
     
     cf.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     cf.setRange(10.0f, 19000.0f);
-    cf.setSkewFactorFromMidPoint(1500.0f);
+    cf.setSkewFactorFromMidPoint(1000);
     cf.setTextBoxStyle(Slider::NoTextBox, true, 40, 20);
     cf.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(&cf);
