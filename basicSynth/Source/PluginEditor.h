@@ -12,9 +12,9 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-#include "Oscillator.h"
-#include "m_ADSR.h"
-#include "Filter.h"
+#include "OscillatorUI.h"
+#include "ADSRUI.h"
+#include "FilterUI.h"
 
 //==============================================================================
 /**
@@ -34,7 +34,7 @@ private:
     
     BasicSynthAudioProcessor& processor;
     
-    Oscillator m_OscGUI;
+    OscillatorUI m_OscGUI;
     M_ADSR m_adsrGUI;
     Filter m_filterGUI;
     

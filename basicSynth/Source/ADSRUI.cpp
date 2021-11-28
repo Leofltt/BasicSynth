@@ -9,7 +9,7 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "m_ADSR.h"
+#include "ADSRUI.h"
 
 //==============================================================================
 M_ADSR::M_ADSR(BasicSynthAudioProcessor& p) : processor(p)

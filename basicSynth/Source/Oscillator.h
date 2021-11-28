@@ -1,8 +1,8 @@
 /*
   ==============================================================================
 
-    Oscillator.h
-    Created: 2 Dec 2019 3:41:42pm
+    WTOscillator.h
+    Created: 28 Nov 2021 2:37:56pm
     Author:  Leonardo Foletto
 
   ==============================================================================
@@ -10,37 +10,38 @@
 
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
-#include "PluginProcessor.h"
-//==============================================================================
-/*
-*/
-class Oscillator    : public Component,
-                      private ComboBox::Listener
+#include <cmath>
+
+class Oscillator
 {
+
 public:
-    Oscillator(BasicSynthAudioProcessor&);
+    enum Waveform
+    {
+        SINE,
+        SAW,
+        SQUARE,
+        TRIANGLE
+    };
+    Oscillator();
     ~Oscillator();
-
-    void paint (Graphics&) override;
-    void resized() override;
-    
-    void comboBoxChanged(ComboBox*) override;
-
+    void setWF(int i);
+    void setFreq(double freq);
+    void setSR(double sr);
+    void phasereset() { mPhase = 0.;};
+    void process( double *buffer);
+    double getNextSample();
+    double oscillate(Waveform w);
 private:
-    ComboBox m_OscMenu;
-    ComboBox m_OscMenu2;
-    
-    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> m_Osc1Value;
-    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> m_Osc2Value;
-    
-    Slider m_BlendSlider;
-    
-    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> m_BlendValue;
-    
-    
-    BasicSynthAudioProcessor& processor;
-
-    
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Oscillator)
+    double mFreq = 440.;
+    double mPitchMod;
+    double mPhase = 0.;
+    double mPhaseInc;
+    double mSamplerate = 44100.;
+    Waveform mWave = SINE;
+    void updatePhaseInc();
+    static constexpr double mPi = M_PI;
+    static constexpr double mTwoPi = 2 * mPi;
+    double lastoutput = 0.;
+    double polyBLEP(double t);
 };

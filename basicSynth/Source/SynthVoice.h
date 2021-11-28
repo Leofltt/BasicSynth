@@ -11,7 +11,7 @@
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
-#include "maximilian.h"
+#include "Oscillator.h"
 
 
 class SynthVoice : public SynthesiserVoice
@@ -29,44 +29,43 @@ public:
         
     }
     
-    void getADSR(float* atk, float* decay, float* sustain, float* release)
+    void getADSR(float atk, float decay, float sustain, float release)
     {
-        env1_params.attack =  *atk;
-        env1_params.decay =  *decay;
-        env1_params.sustain = *sustain;
-        env1_params.release =  *release;
+        env1_params.attack =  atk;
+        env1_params.decay =  decay;
+        env1_params.sustain = sustain;
+        env1_params.release =  release;
 
     }
 
-    double setWT(int i)
+    double setOsc(int i)
     {
-        auto freq = frequency.load();
-        
-        if(wt[i] == 0)
-            return v_osc[i].sinewave(freq);
-        if(wt[i] == 1)
-            return v_osc[i].saw(freq);
-        if(wt[i] == 2)
-            return v_osc[i].square(freq);
-        else
-            return v_osc[i].sinewave(freq);
+        return v_osc[i].getNextSample();
     }
     
-    double setOscillators()
+    double oscNextSample()
     {
         auto bl = m_blend.load();
-        return setWT(0) * (1 - bl) + setWT(1) * bl;
+        auto freq = frequency.load();
+        for (int i = 0; i < 3; i++)
+        {
+            v_osc[i].setFreq(freq);
+        }
+        v_osc[1].setWF(wt[0]);
+        v_osc[2].setWF(wt[1]);
+        auto sub_lev = 0.5;
+        return setOsc(0) * (1 - bl) + setOsc(1) * bl + setOsc(2) * sub_lev;
     }
     
-    void getWT(float* wt1, float *wt2)
+    void getWT(float wt1, float wt2)
     {
-        wt[0] = *wt1;
-        wt[1] = *wt2;
+        wt[0] = wt1;
+        wt[1] = wt2;
     }
     
-    void getBlend(float* blend)
+    void getBlend(float blend)
        {
-           m_blend.store(*blend);
+           m_blend.store(blend);
        }
 
     void getPitchBend(int pw)
@@ -98,7 +97,7 @@ public:
         auto oldF = frequency.load();
         auto pB = m_pitchBend.load();
         
-        frequency.store(oldF  * std::pow(2, pB * 2 * 100 / 1200 ));
+        frequency.store(oldF  * std::pow(2, pB * 2 / 12 ));
     }
     
     void controllerMoved (int controllerNumber, int newControllerValue)
@@ -117,7 +116,7 @@ public:
             
             for (int chan = 0; chan < outputBuffer.getNumChannels(); ++chan)
             {
-                outputBuffer.addSample(chan, startSample, m_env1.getNextSample() * setOscillators() * amp);
+                outputBuffer.addSample(chan, startSample, m_env1.getNextSample() * oscNextSample() * amp);
             }
             
             ++startSample;
@@ -133,13 +132,13 @@ private:
     std::atomic<double> m_pitchBend;
     static_assert(std::atomic<double>::is_always_lock_free);
     
-    maxiOsc m_osc;
+    Oscillator m_osc;
     
     ADSR m_env1;
     ADSR::Parameters env1_params;
 
-    std::vector <maxiOsc> v_osc {m_osc, m_osc};
-    std::vector <float> wt {0,0};
+    std::vector <Oscillator> v_osc {m_osc, m_osc, m_osc};
+    std::vector <float> wt {0,0,0};
 
     
     

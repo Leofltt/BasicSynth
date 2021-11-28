@@ -88,7 +88,11 @@ public:
     void updateFilterParams();
     
 private:
-    dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, dsp::StateVariableFilter::Parameters<float>> svf;
+    
+    using SVF = juce::dsp::StateVariableFilter::Filter<float>;
+    using Filter = juce::dsp::IIR::Filter<float>;
+    
+    dsp::ProcessorDuplicator<SVF, dsp::StateVariableFilter::Parameters<float>> svf;
     
     Synthesiser synth;
     SynthVoice* synthvox;

@@ -1,33 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="JCuGvG" name="basicSynth" projectType="audioplug" jucerVersion="5.4.5"
-              pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
-              companyName="Leo Foletto" cppLanguageStandard="17">
+<JUCERPROJECT id="JCuGvG" name="basicSynth" projectType="audioplug" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
+              companyName="flttplugs" cppLanguageStandard="17" displaySplashScreen="1"
+              jucerFormatVersion="1">
   <MAINGROUP id="Y2XnVU" name="basicSynth">
     <GROUP id="{008273DA-B577-8076-3FD7-4122F0F91A43}" name="Source">
-      <GROUP id="{0A3ECCC9-054A-4E40-2D73-49FC003ABF6A}" name="Maximilian">
-        <GROUP id="{9437D000-D9E3-DE77-2C15-C29D34034B57}" name="libs">
-          <FILE id="FYRy2Z" name="fft.cpp" compile="1" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/fft.cpp"/>
-          <FILE id="JW0vnh" name="fft.h" compile="0" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/fft.h"/>
-          <FILE id="V84QFr" name="maxiAtoms.cpp" compile="1" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/maxiAtoms.cpp"/>
-          <FILE id="q2sg0V" name="maxiAtoms.h" compile="0" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/maxiAtoms.h"/>
-          <FILE id="QKEtQh" name="maxiBark.cpp" compile="1" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/maxiBark.cpp"/>
-          <FILE id="IF26Jj" name="maxiBark.h" compile="0" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/maxiBark.h"/>
-          <FILE id="wjGHhG" name="maxiFFT.cpp" compile="1" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/maxiFFT.cpp"/>
-          <FILE id="xyKqUx" name="maxiFFT.h" compile="0" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/maxiFFT.h"/>
-          <FILE id="xnUpam" name="maxiGrains.cpp" compile="1" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/maxiGrains.cpp"/>
-          <FILE id="Cbazvt" name="maxiGrains.h" compile="0" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/maxiGrains.h"/>
-          <FILE id="Rhfljw" name="maxim.h" compile="0" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/maxim.h"/>
-          <FILE id="Edrf37" name="maxiMFCC.cpp" compile="1" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/maxiMFCC.cpp"/>
-          <FILE id="dDSf7Z" name="maxiMFCC.h" compile="0" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/maxiMFCC.h"/>
-          <FILE id="L7wPLI" name="sineTable.h" compile="0" resource="0" file="../../JUCE_User_Libraries/Maximilian/libs/sineTable.h"/>
-        </GROUP>
-        <FILE id="o8ROJp" name="main.cpp" compile="1" resource="0" file="../../JUCE_User_Libraries/Maximilian/main.cpp"/>
-        <FILE id="LPHuCB" name="maximilian.cpp" compile="1" resource="0" file="../../JUCE_User_Libraries/Maximilian/maximilian.cpp"/>
-        <FILE id="pjXciP" name="maximilian.h" compile="0" resource="0" file="../../JUCE_User_Libraries/Maximilian/maximilian.h"/>
-        <FILE id="h4hmHs" name="stb_vorbis.c" compile="1" resource="0" file="../../JUCE_User_Libraries/Maximilian/stb_vorbis.c"/>
-        <FILE id="yz44Wt" name="stb_vorbis.h" compile="0" resource="0" file="../../JUCE_User_Libraries/Maximilian/stb_vorbis.h"/>
-      </GROUP>
       <FILE id="jHQ8Wq" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="v9Y4Xl" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
@@ -36,12 +13,15 @@
       <FILE id="GWC27A" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
       <FILE id="ib1u32" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
-      <FILE id="Nc12Gy" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
-      <FILE id="F2Zi3p" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
-      <FILE id="Duy0zq" name="m_ADSR.cpp" compile="1" resource="0" file="Source/m_ADSR.cpp"/>
-      <FILE id="aWyJEX" name="m_ADSR.h" compile="0" resource="0" file="Source/m_ADSR.h"/>
-      <FILE id="H5oUvk" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
-      <FILE id="em3WIW" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
+      <FILE id="Nc12Gy" name="OscillatorUI.cpp" compile="1" resource="0"
+            file="Source/OscillatorUI.cpp"/>
+      <FILE id="F2Zi3p" name="OscillatorUI.h" compile="0" resource="0" file="Source/OscillatorUI.h"/>
+      <FILE id="Duy0zq" name="ADSRUI.cpp" compile="1" resource="0" file="Source/ADSRUI.cpp"/>
+      <FILE id="aWyJEX" name="ADSRUI.h" compile="0" resource="0" file="Source/ADSRUI.h"/>
+      <FILE id="c3N1wv" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
+      <FILE id="PFBvT9" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
+      <FILE id="H5oUvk" name="FilterUI.cpp" compile="1" resource="0" file="Source/FilterUI.cpp"/>
+      <FILE id="em3WIW" name="FilterUI.h" compile="0" resource="0" file="Source/FilterUI.h"/>
       <FILE id="gtDk0B" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>

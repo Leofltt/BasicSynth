@@ -38,6 +38,8 @@ m_parameters(*this, nullptr, "PARAMETERS", createParameterLayout())
 }
 AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createParameterLayout(){
     
+    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+    
     std::vector<std::unique_ptr<RangedAudioParameter>> t_params;
     
     auto filterRange = NormalisableRange<float> (10.0f, 19000.0f);
@@ -48,9 +50,9 @@ AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createPa
     auto t_sustainParam = std::make_unique<AudioParameterFloat>(SUS_ID, SUS_NAME, 0.001f, 1.0f,0.7f);
     auto t_releaseParam = std::make_unique<AudioParameterFloat>(REL_ID, REL_NAME, 0.001f, 5.0f,0.1f);
     
-    auto t_waveType = std::make_unique<AudioParameterFloat>(WT1_ID, WT1_NAME,0,2,0);
+    auto t_waveType = std::make_unique<AudioParameterFloat>(WT1_ID, WT1_NAME,0,3,0);
     
-    auto t_waveType2 = std::make_unique<AudioParameterFloat>(WT2_ID, WT2_NAME,0,2,0);
+    auto t_waveType2 = std::make_unique<AudioParameterFloat>(WT2_ID, WT2_NAME,0,3,0);
     
     auto t_cutoffFreq = std::make_unique<AudioParameterFloat>(CF_ID, CF_NAME,filterRange, 1000.0f);
     auto t_resonance = std::make_unique<AudioParameterFloat>(RES_ID, RES_NAME,0.0f,5.0f,1.0f);
@@ -58,6 +60,14 @@ AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createPa
     auto t_filterType = std::make_unique<AudioParameterFloat>(FT_ID, FT_NAME,0,2,0);
     
     auto t_blend = std::make_unique<AudioParameterFloat>(BL_ID, BL_NAME,0,1,0);
+    
+    //    juce::StringArray filterString;
+    //    filterString.add("LPF");
+    //    filterString.add("BPF");
+    //    filterString.add("HPF");
+    //    filterString.add("NOTCH");
+    //
+    //    auto filterTypeParam = std::make_unique<AudioParameterChoice>(FT_ID, FT_NAME, filterString, 0);
     
     t_params.push_back(std::move(t_atkParam));
     t_params.push_back(std::move(t_decayParam));
@@ -217,21 +227,18 @@ void BasicSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
         if((synthvox = dynamic_cast<SynthVoice*>(synth.getVoice(i))))
         {
             synthvox->setADSRsampleRate(lastSR);
-        synthvox->getADSR(m_parameters.getRawParameterValue(ATK_ID),m_parameters.getRawParameterValue(DEC_ID),m_parameters.getRawParameterValue(SUS_ID),m_parameters.getRawParameterValue(REL_ID));
-            synthvox->getWT(m_parameters.getRawParameterValue(WT1_ID),m_parameters.getRawParameterValue(WT2_ID));
-            synthvox->getBlend(m_parameters.getRawParameterValue(BL_ID));
+        synthvox->getADSR(m_parameters.getRawParameterValue(ATK_ID)->load(),m_parameters.getRawParameterValue(DEC_ID)->load(),m_parameters.getRawParameterValue(SUS_ID)->load(),m_parameters.getRawParameterValue(REL_ID)->load());
+        synthvox->getWT(m_parameters.getRawParameterValue(WT1_ID)->load(),m_parameters.getRawParameterValue(WT2_ID)->load());
+            synthvox->getBlend(m_parameters.getRawParameterValue(BL_ID)->load());
         }
     }
     
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-    
-
-   
+       
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
-
    
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     dsp::AudioBlock<float> ablock (buffer);
