@@ -51,8 +51,8 @@ public:
         {
             v_osc[i].setFreq(freq);
         }
-        v_osc[1].setWF(wt[0]);
-        v_osc[2].setWF(wt[1]);
+        v_osc[0].setWF(wt[0]);
+        v_osc[1].setWF(wt[1]);
         auto sub_lev = 0.5;
         return setOsc(0) * (1 - bl) + setOsc(1) * bl + setOsc(2) * sub_lev;
     }
