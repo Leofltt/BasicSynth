@@ -61,6 +61,7 @@ public:
     {
         wt[0] = wt1;
         wt[1] = wt2;
+        wt[2] = 0;
     }
     
     void getBlend(float blend)
@@ -138,7 +139,7 @@ private:
     ADSR::Parameters env1_params;
 
     std::vector <Oscillator> v_osc {m_osc, m_osc, m_osc};
-    std::vector <float> wt {0,0,0};
+    std::vector <int> wt {0,0,0};
 
     
     
