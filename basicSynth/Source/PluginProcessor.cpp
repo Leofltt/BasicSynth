@@ -150,11 +150,9 @@ void BasicSynthAudioProcessor::changeProgramName (int index, const String& newNa
 {
 }
 
-void BasicSynthAudioProcessor::updateFilterParams()
+void BasicSynthAudioProcessor::updateFilterParams(float cf, float res)
 {
     int menuChoice = *m_parameters.getRawParameterValue(FT_ID);
-    float coff = *m_parameters.getRawParameterValue(CF_ID);
-    float reso = *m_parameters.getRawParameterValue(RES_ID);
     
     if (menuChoice == 0)
         svf.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
@@ -165,12 +163,13 @@ void BasicSynthAudioProcessor::updateFilterParams()
     else
         svf.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
     
-    svf.state->setCutOffFrequency(lastSR, coff, reso);
+    svf.state->setCutOffFrequency(lastSR, cf, res);
 }
 
 //==============================================================================
 void BasicSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    
     t_atkTime = *m_parameters.getRawParameterValue(ATK_ID);
     t_decayTime = *m_parameters.getRawParameterValue(DEC_ID);
     t_releaseTime = *m_parameters.getRawParameterValue(REL_ID);
@@ -184,8 +183,16 @@ void BasicSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     spec.sampleRate = lastSR;
     spec.maximumBlockSize = samplesPerBlock;
     
+    smoothCF.reset(sampleRate, 0.0005);
+    smoothRES.reset(sampleRate, 0.0005);
+    smoothATK.reset(sampleRate, 0.0005);
+    smoothDEC.reset(sampleRate, 0.0005);
+    smoothSUS.reset(sampleRate, 0.0005);
+    smoothREL.reset(sampleRate, 0.0005);
+    smoothBLEND.reset(sampleRate, 0.0005);
+    
     svf.reset();
-    updateFilterParams();
+    updateFilterParams(*m_parameters.getRawParameterValue(CF_ID),*m_parameters.getRawParameterValue(RES_ID));
     svf.prepare(spec);
 }
 
@@ -221,15 +228,35 @@ bool BasicSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layout
 
 void BasicSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
+    t_atkTime = m_parameters.getRawParameterValue(ATK_ID)->load();
+    t_decayTime = m_parameters.getRawParameterValue(DEC_ID)->load();
+    t_sustainLevel = m_parameters.getRawParameterValue(SUS_ID)->load();
+    t_releaseTime = m_parameters.getRawParameterValue(SUS_ID)->load();
+    
+    smoothATK.setTargetValue(t_atkTime);
+    smoothDEC.setTargetValue(t_decayTime);
+    smoothSUS.setTargetValue(t_sustainLevel);
+    smoothREL.setTargetValue(t_releaseTime);
+    
+    auto t_blend = m_parameters.getRawParameterValue(BL_ID)->load();
+    
+    smoothBLEND.setTargetValue(t_blend);
+    
+    float t_coff = *m_parameters.getRawParameterValue(CF_ID);
+    float t_res = *m_parameters.getRawParameterValue(RES_ID);
+    
+    smoothCF.setTargetValue(t_coff);
+    smoothRES.setTargetValue(t_res);
     
     for(int i = 0; i <synth.getNumVoices(); i++)
     {
         if((synthvox = dynamic_cast<SynthVoice*>(synth.getVoice(i))))
         {
             synthvox->setADSRsampleRate(lastSR);
-        synthvox->getADSR(m_parameters.getRawParameterValue(ATK_ID)->load(),m_parameters.getRawParameterValue(DEC_ID)->load(),m_parameters.getRawParameterValue(SUS_ID)->load(),m_parameters.getRawParameterValue(REL_ID)->load());
+            
+        synthvox->getADSR(smoothATK.getNextValue(),smoothDEC.getNextValue(),smoothSUS.getNextValue(),smoothREL.getNextValue());
         synthvox->getWT(m_parameters.getRawParameterValue(WT1_ID)->load(),m_parameters.getRawParameterValue(WT2_ID)->load());
-            synthvox->getBlend(m_parameters.getRawParameterValue(BL_ID)->load());
+            synthvox->getBlend(smoothBLEND.getNextValue());
         }
     }
     
@@ -238,11 +265,13 @@ void BasicSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     auto totalNumOutputChannels = getTotalNumOutputChannels();
        
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+    {
         buffer.clear (i, 0, buffer.getNumSamples());
+        updateFilterParams(smoothCF.getNextValue(),smoothRES.getNextValue());
+    }
    
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     dsp::AudioBlock<float> ablock (buffer);
-    updateFilterParams();
     svf.process(dsp::ProcessContextReplacing<float> (ablock));
 
 }

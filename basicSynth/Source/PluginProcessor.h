@@ -76,18 +76,26 @@ public:
     //==============================================================================
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-
+    
+    void updateFilterParams(float cf, float res);
+    
+    AudioProcessorValueTreeState m_parameters;
+    AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    
+private:
+    
     float t_atkTime;
     float t_decayTime;
     float t_sustainLevel;
     float t_releaseTime;
     
-    AudioProcessorValueTreeState m_parameters;
-    AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
-    
-    void updateFilterParams();
-    
-private:
+    LinearSmoothedValue<float> smoothATK { 0.0f};
+    LinearSmoothedValue<float> smoothDEC { 1.0f};
+    LinearSmoothedValue<float> smoothSUS { 0.0f};
+    LinearSmoothedValue<float> smoothREL { 0.0f};
+    LinearSmoothedValue<float> smoothRES { 0.50f};
+    LinearSmoothedValue<float> smoothCF { 20000.0f};
+    LinearSmoothedValue<float> smoothBLEND { 0.0f};
     
     using SVF = juce::dsp::StateVariableFilter::Filter<float>;
     using Filter = juce::dsp::IIR::Filter<float>;
