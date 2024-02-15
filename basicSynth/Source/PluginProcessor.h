@@ -10,7 +10,6 @@
 
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "SynthVoice.h"
 #define ATK_ID "atk_time"

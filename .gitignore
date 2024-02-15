@@ -1,2 +1,3 @@
 .DS_Store
-basicSynth/Builds/
+.vscode/
+basicSynth/cmake-build-**/
