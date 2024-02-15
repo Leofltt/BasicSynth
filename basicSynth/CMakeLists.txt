@@ -57,14 +57,14 @@ juce_add_plugin(${TARGET_NAME}
 		# ICON_BIG ...                              # ICON_* arguments specify a path to an image file to use as an icon for the Standalone
 		# ICON_SMALL ...
 		COMPANY_NAME "leofltt"
-		IS_SYNTH FALSE                       # Is this a synth or an effect?
-		NEEDS_MIDI_INPUT FALSE               # Does the plugin need midi input?
+		IS_SYNTH TRUE                       # Is this a synth or an effect?
+		NEEDS_MIDI_INPUT TRUE               # Does the plugin need midi input?
 		NEEDS_MIDI_OUTPUT FALSE              # Does the plugin need midi output?
 		# IS_MIDI_EFFECT TRUE/FALSE                 # Is this plugin a MIDI effect?
 		# EDITOR_WANTS_KEYBOARD_FOCUS TRUE/FALSE    # Does the editor need keyboard focus?
 		# COPY_PLUGIN_AFTER_BUILD TRUE/FALSE        # Should the plugin be installed to a default location after building?
 		PLUGIN_MANUFACTURER_CODE Fltt              # A four-character manufacturer id with at least one upper-case character
-		PLUGIN_CODE Fltt                            # A unique four-character plugin id with exactly one upper-case character
+		PLUGIN_CODE Flt1                            # A unique four-character plugin id with exactly one upper-case character
 
 		if(APPLE)
             if(CMAKE_BUILD_TYPE STREQAL "Debug")
