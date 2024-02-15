@@ -10,18 +10,17 @@
 
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 //==============================================================================
 /*
 */
-class Filter    : public Component
+class Filter    : public juce::Component
 {
 public:
     Filter(BasicSynthAudioProcessor&);
     ~Filter();
 
-    void paint (Graphics&) override;
+    void paint (juce::Graphics&) override;
     void resized() override;
     
 
@@ -29,14 +28,14 @@ private:
     BasicSynthAudioProcessor& processor;
     
     
-    Slider cf;
-    Slider res;
-    ComboBox m_filterMenu;
+    juce::Slider cf;
+    juce::Slider res;
+    juce::ComboBox m_filterMenu;
     
-    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> m_CutoffValue;
-    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> m_ResonanceValue;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> m_CutoffValue;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> m_ResonanceValue;
 
-    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> m_ftValue;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> m_ftValue;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Filter)
 };

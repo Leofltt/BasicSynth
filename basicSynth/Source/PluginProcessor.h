@@ -37,7 +37,7 @@
 //==============================================================================
 /**
 */
-class BasicSynthAudioProcessor  : public AudioProcessor
+class BasicSynthAudioProcessor  : public juce::AudioProcessor
 {
 public:
     //==============================================================================
@@ -52,14 +52,14 @@ public:
     bool isBusesLayoutSupported (const BusesLayout& layouts) const override;
    #endif
 
-    void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
+    void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
 
     //==============================================================================
-    AudioProcessorEditor* createEditor() override;
+    juce::AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override;
 
     //==============================================================================
-    const String getName() const override;
+    const juce::String getName() const override;
 
     bool acceptsMidi() const override;
     bool producesMidi() const override;
@@ -70,17 +70,17 @@ public:
     int getNumPrograms() override;
     int getCurrentProgram() override;
     void setCurrentProgram (int index) override;
-    const String getProgramName (int index) override;
-    void changeProgramName (int index, const String& newName) override;
+    const juce::String getProgramName (int index) override;
+    void changeProgramName (int index, const juce::String& newName) override;
 
     //==============================================================================
-    void getStateInformation (MemoryBlock& destData) override;
+    void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
     void updateFilterParams(float cf, float res);
     
-    AudioProcessorValueTreeState m_parameters;
-    AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    juce::AudioProcessorValueTreeState m_parameters;
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     
 private:
     
@@ -89,20 +89,20 @@ private:
     float t_sustainLevel;
     float t_releaseTime;
     
-    LinearSmoothedValue<float> smoothATK { 0.0f};
-    LinearSmoothedValue<float> smoothDEC { 1.0f};
-    LinearSmoothedValue<float> smoothSUS { 0.0f};
-    LinearSmoothedValue<float> smoothREL { 0.0f};
-    LinearSmoothedValue<float> smoothRES { 0.50f};
-    LinearSmoothedValue<float> smoothCF { 20000.0f};
-    LinearSmoothedValue<float> smoothBLEND { 0.0f};
+    juce::LinearSmoothedValue<float> smoothATK { 0.0f};
+    juce::LinearSmoothedValue<float> smoothDEC { 1.0f};
+    juce::LinearSmoothedValue<float> smoothSUS { 0.0f};
+    juce::LinearSmoothedValue<float> smoothREL { 0.0f};
+    juce::LinearSmoothedValue<float> smoothRES { 0.50f};
+    juce::LinearSmoothedValue<float> smoothCF { 20000.0f};
+    juce::LinearSmoothedValue<float> smoothBLEND { 0.0f};
     
     using SVF = juce::dsp::StateVariableFilter::Filter<float>;
     using Filter = juce::dsp::IIR::Filter<float>;
     
-    dsp::ProcessorDuplicator<SVF, dsp::StateVariableFilter::Parameters<float>> svf;
+    juce::dsp::ProcessorDuplicator<SVF, juce::dsp::StateVariableFilter::Parameters<float>> svf;
     
-    Synthesiser synth;
+    juce::Synthesiser synth;
     SynthVoice* synthvox;
     
     double lastSR;

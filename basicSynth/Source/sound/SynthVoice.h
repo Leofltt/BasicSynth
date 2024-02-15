@@ -14,11 +14,11 @@
 #include "Oscillator.h"
 
 
-class SynthVoice : public SynthesiserVoice
+class SynthVoice : public juce::SynthesiserVoice
 {
 public:
     
-    bool canPlaySound (SynthesiserSound* sound)
+    bool canPlaySound (juce::SynthesiserSound* sound)
     {
         return dynamic_cast<SynthSound*>(sound) != nullptr;
     }
@@ -75,11 +75,11 @@ public:
         m_pitchBend.store(pb);
     }
     
-    void startNote(int midinotenumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPos)
+    void startNote(int midinotenumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPos)
     {
         m_env1.noteOn();
         amplitude.store(velocity);
-        frequency.store(MidiMessage::getMidiNoteInHertz(midinotenumber));
+        frequency.store(juce::MidiMessage::getMidiNoteInHertz(midinotenumber));
     }
     
     void stopNote(float velocity, bool allowTailOff)
@@ -106,7 +106,7 @@ public:
         
     }
     
-    void renderNextBlock (AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
+    void renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples)
     {
         m_env1.setParameters(env1_params);
         
@@ -135,8 +135,8 @@ private:
     
     Oscillator m_osc;
     
-    ADSR m_env1;
-    ADSR::Parameters env1_params;
+    juce::ADSR m_env1;
+    juce::ADSR::Parameters env1_params;
 
     std::vector <Oscillator> v_osc {m_osc, m_osc, m_osc};
     std::vector <int> wt {0,0,0};

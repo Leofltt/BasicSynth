@@ -15,28 +15,28 @@
 //==============================================================================
 /*
 */
-class OscillatorUI    : public Component,
-                      private ComboBox::Listener
+class OscillatorUI    : public juce::Component,
+                      private juce::ComboBox::Listener
 {
 public:
     OscillatorUI(BasicSynthAudioProcessor&);
     ~OscillatorUI();
 
-    void paint (Graphics&) override;
+    void paint (juce::Graphics&) override;
     void resized() override;
     
-    void comboBoxChanged(ComboBox*) override;
+    void comboBoxChanged(juce::ComboBox*) override;
 
 private:
-    ComboBox m_OscMenu;
-    ComboBox m_OscMenu2;
+    juce::ComboBox m_OscMenu;
+    juce::ComboBox m_OscMenu2;
     
-    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> m_Osc1Value;
-    std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> m_Osc2Value;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> m_Osc1Value;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> m_Osc2Value;
     
-    Slider m_BlendSlider;
+    juce::Slider m_BlendSlider;
     
-    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> m_BlendValue;
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> m_BlendValue;
     
     
     BasicSynthAudioProcessor& processor;

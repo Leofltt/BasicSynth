@@ -10,23 +10,22 @@
 
 #pragma once
 
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-#include "OscillatorUI.h"
-#include "ADSRUI.h"
-#include "FilterUI.h"
+#include "ui/OscillatorUI.h"
+#include "ui/ADSRUI.h"
+#include "ui/FilterUI.h"
 
 //==============================================================================
 /**
 */
-class BasicSynthAudioProcessorEditor  : public AudioProcessorEditor
+class BasicSynthAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
     BasicSynthAudioProcessorEditor (BasicSynthAudioProcessor&);
     ~BasicSynthAudioProcessorEditor();
 
     //==============================================================================
-    void paint (Graphics&) override;
+    void paint (juce::Graphics&) override;
     void resized() override;
 
     

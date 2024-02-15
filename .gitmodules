@@ -1,0 +1,3 @@
+[submodule "basicSynth/modules/JUCE"]
+	path = basicSynth/modules/JUCE
+	url = https://github.com/juce-framework/JUCE

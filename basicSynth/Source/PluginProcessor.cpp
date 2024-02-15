@@ -14,19 +14,19 @@
 //==============================================================================
 BasicSynthAudioProcessor::BasicSynthAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
+     : juce::AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
                       #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  AudioChannelSet::stereo(), true)
+                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
                       #endif
-                       .withOutput ("Output", AudioChannelSet::stereo(), true)
+                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ),
 m_parameters(*this, nullptr, "PARAMETERS", createParameterLayout())
 
 #endif
 {
-    m_parameters.state = ValueTree("savedParams");
+    m_parameters.state = juce::ValueTree("savedParams");
     synth.clearVoices();
     
     for (int i = 0; i < 8; i++)
@@ -36,30 +36,30 @@ m_parameters(*this, nullptr, "PARAMETERS", createParameterLayout())
     synth.addSound(new SynthSound());
     
 }
-AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createParameterLayout(){
+juce::AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createParameterLayout(){
     
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
     
-    std::vector<std::unique_ptr<RangedAudioParameter>> t_params;
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> t_params;
     
-    auto filterRange = NormalisableRange<float> (10.0f, 19000.0f);
+    auto filterRange = juce::NormalisableRange<float> (10.0f, 19000.0f);
     filterRange.setSkewForCentre(1000);
     
-    auto t_atkParam = std::make_unique<AudioParameterFloat>(ATK_ID, ATK_NAME, 0.001f, 5.0f,0.1f);
-    auto t_decayParam = std::make_unique<AudioParameterFloat>(DEC_ID, DEC_NAME, 0.001f, 5.0f,0.5f);
-    auto t_sustainParam = std::make_unique<AudioParameterFloat>(SUS_ID, SUS_NAME, 0.001f, 1.0f,0.7f);
-    auto t_releaseParam = std::make_unique<AudioParameterFloat>(REL_ID, REL_NAME, 0.001f, 5.0f,0.1f);
+    auto t_atkParam = std::make_unique<juce::AudioParameterFloat>(ATK_ID, ATK_NAME, 0.001f, 5.0f,0.1f);
+    auto t_decayParam = std::make_unique<juce::AudioParameterFloat>(DEC_ID, DEC_NAME, 0.001f, 5.0f,0.5f);
+    auto t_sustainParam = std::make_unique<juce::AudioParameterFloat>(SUS_ID, SUS_NAME, 0.001f, 1.0f,0.7f);
+    auto t_releaseParam = std::make_unique<juce::AudioParameterFloat>(REL_ID, REL_NAME, 0.001f, 5.0f,0.1f);
     
-    auto t_waveType = std::make_unique<AudioParameterFloat>(WT1_ID, WT1_NAME,0,3,0);
+    auto t_waveType = std::make_unique<juce::AudioParameterFloat>(WT1_ID, WT1_NAME,0,3,0);
     
-    auto t_waveType2 = std::make_unique<AudioParameterFloat>(WT2_ID, WT2_NAME,0,3,0);
+    auto t_waveType2 = std::make_unique<juce::AudioParameterFloat>(WT2_ID, WT2_NAME,0,3,0);
     
-    auto t_cutoffFreq = std::make_unique<AudioParameterFloat>(CF_ID, CF_NAME,filterRange, 1000.0f);
-    auto t_resonance = std::make_unique<AudioParameterFloat>(RES_ID, RES_NAME,0.0f,5.0f,1.0f);
+    auto t_cutoffFreq = std::make_unique<juce::AudioParameterFloat>(CF_ID, CF_NAME,filterRange, 1000.0f);
+    auto t_resonance = std::make_unique<juce::AudioParameterFloat>(RES_ID, RES_NAME,0.0f,5.0f,1.0f);
     
-    auto t_filterType = std::make_unique<AudioParameterFloat>(FT_ID, FT_NAME,0,2,0);
+    auto t_filterType = std::make_unique<juce::AudioParameterFloat>(FT_ID, FT_NAME,0,2,0);
     
-    auto t_blend = std::make_unique<AudioParameterFloat>(BL_ID, BL_NAME,0,1,0);
+    auto t_blend = std::make_unique<juce::AudioParameterFloat>(BL_ID, BL_NAME,0,1,0);
     
     //    juce::StringArray filterString;
     //    filterString.add("LPF");
@@ -89,7 +89,7 @@ BasicSynthAudioProcessor::~BasicSynthAudioProcessor()
 }
 
 //==============================================================================
-const String BasicSynthAudioProcessor::getName() const
+const juce::String BasicSynthAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
@@ -141,12 +141,12 @@ void BasicSynthAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const String BasicSynthAudioProcessor::getProgramName (int index)
+const juce::String BasicSynthAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void BasicSynthAudioProcessor::changeProgramName (int index, const String& newName)
+void BasicSynthAudioProcessor::changeProgramName (int index, const juce::String& newName)
 {
 }
 
@@ -155,13 +155,13 @@ void BasicSynthAudioProcessor::updateFilterParams(float cf, float res)
     int menuChoice = *m_parameters.getRawParameterValue(FT_ID);
     
     if (menuChoice == 0)
-        svf.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
+        svf.state->type = juce::dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
     else if (menuChoice == 1)
-        svf.state->type = dsp::StateVariableFilter::Parameters<float>::Type::highPass;
+        svf.state->type = juce::dsp::StateVariableFilter::Parameters<float>::Type::highPass;
     else if (menuChoice == 2)
-        svf.state->type = dsp::StateVariableFilter::Parameters<float>::Type::bandPass;
+        svf.state->type = juce::dsp::StateVariableFilter::Parameters<float>::Type::bandPass;
     else
-        svf.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
+        svf.state->type = juce::dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
     
     svf.state->setCutOffFrequency(lastSR, cf, res);
 }
@@ -175,10 +175,10 @@ void BasicSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     t_releaseTime = *m_parameters.getRawParameterValue(REL_ID);
     t_sustainLevel = *m_parameters.getRawParameterValue(SUS_ID);
     
-    ignoreUnused(samplesPerBlock);
+    juce::ignoreUnused(samplesPerBlock);
     lastSR = sampleRate;
     synth.setCurrentPlaybackSampleRate(lastSR);
-    dsp::ProcessSpec spec;
+    juce::dsp::ProcessSpec spec;
     spec.numChannels = getMainBusNumOutputChannels();
     spec.sampleRate = lastSR;
     spec.maximumBlockSize = samplesPerBlock;
@@ -211,8 +211,8 @@ bool BasicSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layout
   #else
     // This is the place where you check if the layout is supported.
     // In this template code we only support mono or stereo.
-    if (layouts.getMainOutputChannelSet() != AudioChannelSet::mono()
-     && layouts.getMainOutputChannelSet() != AudioChannelSet::stereo())
+    if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono()
+     && layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
         return false;
 
     // This checks if the input layout matches the output layout
@@ -226,7 +226,7 @@ bool BasicSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layout
 }
 #endif
 
-void BasicSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
+void BasicSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     t_atkTime = m_parameters.getRawParameterValue(ATK_ID)->load();
     t_decayTime = m_parameters.getRawParameterValue(DEC_ID)->load();
@@ -260,7 +260,7 @@ void BasicSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
         }
     }
     
-    ScopedNoDenormals noDenormals;
+    juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
        
@@ -271,8 +271,8 @@ void BasicSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     }
    
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-    dsp::AudioBlock<float> ablock (buffer);
-    svf.process(dsp::ProcessContextReplacing<float> (ablock));
+    juce::dsp::AudioBlock<float> ablock (buffer);
+    svf.process(juce::dsp::ProcessContextReplacing<float> (ablock));
 
 }
 
@@ -282,30 +282,30 @@ bool BasicSynthAudioProcessor::hasEditor() const
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor* BasicSynthAudioProcessor::createEditor()
+juce::AudioProcessorEditor* BasicSynthAudioProcessor::createEditor()
 {
     return new BasicSynthAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void BasicSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
+void BasicSynthAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    std::unique_ptr <XmlElement> xml (m_parameters.state.createXml());
+    std::unique_ptr <juce::XmlElement> xml (m_parameters.state.createXml());
     copyXmlToBinary(*xml, destData);
 }
 
 void BasicSynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    std::unique_ptr <XmlElement> t_parameters(getXmlFromBinary(data, sizeInBytes));
+    std::unique_ptr <juce::XmlElement> t_parameters(getXmlFromBinary(data, sizeInBytes));
        
     if (t_parameters != nullptr) {
-        if (t_parameters -> hasTagName(m_parameters.state.getType())) m_parameters.state = ValueTree::fromXml(*t_parameters);
+        if (t_parameters -> hasTagName(m_parameters.state.getType())) m_parameters.state = juce::ValueTree::fromXml(*t_parameters);
     }
 }
 
 //==============================================================================
 // This creates new instances of the plugin..
-AudioProcessor* JUCE_CALLTYPE createPluginFilter()
+juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new BasicSynthAudioProcessor();
 }

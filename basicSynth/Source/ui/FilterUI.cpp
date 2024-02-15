@@ -8,7 +8,6 @@
   ==============================================================================
 */
 
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "FilterUI.h"
 
 
@@ -20,24 +19,24 @@ Filter::Filter(BasicSynthAudioProcessor& p) : processor(p)
     m_filterMenu.addItem("Low Pass", 1);
     m_filterMenu.addItem("High Pass", 2);
     m_filterMenu.addItem("Band Pass", 3);
-    m_filterMenu.setJustificationType(Justification::centred);
+    m_filterMenu.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(&m_filterMenu);
-    m_ftValue = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(processor.m_parameters, FT_ID, m_filterMenu);
+    m_ftValue = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.m_parameters, FT_ID, m_filterMenu);
     
-    cf.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    cf.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     cf.setRange(10.0f, 19000.0f);
     cf.setSkewFactorFromMidPoint(1000);
-    cf.setTextBoxStyle(Slider::NoTextBox, true, 40, 20);
+    cf.setTextBoxStyle(juce::Slider::NoTextBox, true, 40, 20);
     cf.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(&cf);
-    m_CutoffValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.m_parameters, CF_ID, cf);
+    m_CutoffValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.m_parameters, CF_ID, cf);
     
-    res.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    res.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     res.setPopupDisplayEnabled(true, true, this);
     res.setRange(0, 5);
-    res.setTextBoxStyle(Slider::NoTextBox, true, 40, 20);
+    res.setTextBoxStyle(juce::Slider::NoTextBox, true, 40, 20);
     addAndMakeVisible(&res);
-    m_ResonanceValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.m_parameters, RES_ID, res);
+    m_ResonanceValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.m_parameters, RES_ID, res);
     
 }
 
@@ -45,23 +44,23 @@ Filter::~Filter()
 {
 }
 
-void Filter::paint (Graphics& g)
+void Filter::paint (juce::Graphics& g)
 {
-    Rectangle<int> title (0,10,getWidth(), 20);
+    juce::Rectangle<int> title (0,10,getWidth(), 20);
     
-    g.fillAll(Colours::black);
-    g.setColour(Colours::white);
-    g.drawText("Filter",title, Justification::centredTop);
+    g.fillAll(juce::Colours::black);
+    g.setColour(juce::Colours::white);
+    g.drawText("Filter",title, juce::Justification::centredTop);
     
-    Rectangle<float> area (25,25,150,150);
+    juce::Rectangle<float> area (25,25,150,150);
     
-    g.setColour(Colours::orange);
+    g.setColour(juce::Colours::orange);
     g.drawRoundedRectangle(area, 20.0f, 1.0f);
 }
 
 void Filter::resized()
 {
-    Rectangle<int> area = getLocalBounds().reduced(40);
+    juce::Rectangle<int> area = getLocalBounds().reduced(40);
     
     m_filterMenu.setBounds(area.removeFromTop(20));
     cf.setBounds(30, 100, 70, 70);
