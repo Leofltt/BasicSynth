@@ -10,6 +10,7 @@ A basic synth built exploring the Juce framework and the Maximilian c++ library.
 
 To build and run with Cmake use:
 ```
+cd basicSynth
 cmake . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release
 cmake --build cmake-build-release --config Release
 ```
