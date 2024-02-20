@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    Oscillator.h
+    PolyBLEPOscillator.h
     Created: 2 Dec 2019 3:41:42pm
     Author:  Leonardo Foletto
 

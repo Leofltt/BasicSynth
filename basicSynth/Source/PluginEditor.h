@@ -18,8 +18,7 @@
 //==============================================================================
 /**
 */
-class BasicSynthAudioProcessorEditor  : public juce::AudioProcessorEditor
-{
+class BasicSynthAudioProcessorEditor  : public juce::AudioProcessorEditor {
 public:
     BasicSynthAudioProcessorEditor (BasicSynthAudioProcessor&);
     ~BasicSynthAudioProcessorEditor();

@@ -36,9 +36,7 @@ m_parameters(*this, nullptr, "PARAMETERS", createParameterLayout())
     synth.addSound(new SynthSound());
     
 }
-juce::AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createParameterLayout(){
-    
-    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+juce::AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createParameterLayout(){ 
     
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> t_params;
     
@@ -50,9 +48,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::cr
     auto t_sustainParam = std::make_unique<juce::AudioParameterFloat>(SUS_ID, SUS_NAME, 0.001f, 1.0f,0.7f);
     auto t_releaseParam = std::make_unique<juce::AudioParameterFloat>(REL_ID, REL_NAME, 0.001f, 5.0f,0.1f);
     
-    auto t_waveType = std::make_unique<juce::AudioParameterFloat>(WT1_ID, WT1_NAME,0,3,0);
+    auto t_waveType = std::make_unique<juce::AudioParameterFloat>(WT1_ID, WT1_NAME,0,6,0);
     
-    auto t_waveType2 = std::make_unique<juce::AudioParameterFloat>(WT2_ID, WT2_NAME,0,3,0);
+    auto t_waveType2 = std::make_unique<juce::AudioParameterFloat>(WT2_ID, WT2_NAME,0,6,0);
     
     auto t_cutoffFreq = std::make_unique<juce::AudioParameterFloat>(CF_ID, CF_NAME,filterRange, 1000.0f);
     auto t_resonance = std::make_unique<juce::AudioParameterFloat>(RES_ID, RES_NAME,0.0f,5.0f,1.0f);
@@ -84,18 +82,15 @@ juce::AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::cr
     return { t_params.begin(), t_params.end() };
 }
 
-BasicSynthAudioProcessor::~BasicSynthAudioProcessor()
-{
+BasicSynthAudioProcessor::~BasicSynthAudioProcessor() {
 }
 
 //==============================================================================
-const juce::String BasicSynthAudioProcessor::getName() const
-{
+const juce::String BasicSynthAudioProcessor::getName() const {
     return JucePlugin_Name;
 }
 
-bool BasicSynthAudioProcessor::acceptsMidi() const
-{
+bool BasicSynthAudioProcessor::acceptsMidi() const {
    #if JucePlugin_WantsMidiInput
     return true;
    #else
@@ -103,8 +98,7 @@ bool BasicSynthAudioProcessor::acceptsMidi() const
    #endif
 }
 
-bool BasicSynthAudioProcessor::producesMidi() const
-{
+bool BasicSynthAudioProcessor::producesMidi() const {
    #if JucePlugin_ProducesMidiOutput
     return true;
    #else
@@ -112,8 +106,7 @@ bool BasicSynthAudioProcessor::producesMidi() const
    #endif
 }
 
-bool BasicSynthAudioProcessor::isMidiEffect() const
-{
+bool BasicSynthAudioProcessor::isMidiEffect() const {
    #if JucePlugin_IsMidiEffect
     return true;
    #else
@@ -121,37 +114,30 @@ bool BasicSynthAudioProcessor::isMidiEffect() const
    #endif
 }
 
-double BasicSynthAudioProcessor::getTailLengthSeconds() const
-{
+double BasicSynthAudioProcessor::getTailLengthSeconds() const {
     return 0.0;
 }
 
-int BasicSynthAudioProcessor::getNumPrograms()
-{
+int BasicSynthAudioProcessor::getNumPrograms(){
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int BasicSynthAudioProcessor::getCurrentProgram()
-{
+int BasicSynthAudioProcessor::getCurrentProgram() {
     return 0;
 }
 
-void BasicSynthAudioProcessor::setCurrentProgram (int index)
-{
+void BasicSynthAudioProcessor::setCurrentProgram (int index) {
 }
 
-const juce::String BasicSynthAudioProcessor::getProgramName (int index)
-{
+const juce::String BasicSynthAudioProcessor::getProgramName (int index) {
     return {};
 }
 
-void BasicSynthAudioProcessor::changeProgramName (int index, const juce::String& newName)
-{
+void BasicSynthAudioProcessor::changeProgramName (int index, const juce::String& newName) {
 }
 
-void BasicSynthAudioProcessor::updateFilterParams(float cf, float res)
-{
+void BasicSynthAudioProcessor::updateFilterParams(float cf, float res) {
     int menuChoice = *m_parameters.getRawParameterValue(FT_ID);
     
     if (menuChoice == 0)
@@ -167,8 +153,7 @@ void BasicSynthAudioProcessor::updateFilterParams(float cf, float res)
 }
 
 //==============================================================================
-void BasicSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
-{
+void BasicSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
     
     t_atkTime = *m_parameters.getRawParameterValue(ATK_ID);
     t_decayTime = *m_parameters.getRawParameterValue(DEC_ID);
@@ -196,15 +181,13 @@ void BasicSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     svf.prepare(spec);
 }
 
-void BasicSynthAudioProcessor::releaseResources()
-{
+void BasicSynthAudioProcessor::releaseResources() {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool BasicSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
-{
+bool BasicSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const {
   #if JucePlugin_IsMidiEffect
     ignoreUnused (layouts);
     return true;
@@ -226,8 +209,7 @@ bool BasicSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layout
 }
 #endif
 
-void BasicSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
-{
+void BasicSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     t_atkTime = m_parameters.getRawParameterValue(ATK_ID)->load();
     t_decayTime = m_parameters.getRawParameterValue(DEC_ID)->load();
     t_sustainLevel = m_parameters.getRawParameterValue(SUS_ID)->load();
@@ -248,8 +230,7 @@ void BasicSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     smoothCF.setTargetValue(t_coff);
     smoothRES.setTargetValue(t_res);
     
-    for(int i = 0; i <synth.getNumVoices(); i++)
-    {
+    for(int i = 0; i <synth.getNumVoices(); i++){
         if((synthvox = dynamic_cast<SynthVoice*>(synth.getVoice(i))))
         {
             synthvox->setADSRsampleRate(lastSR);
@@ -264,8 +245,7 @@ void BasicSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
        
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-    {
+    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i) {
         buffer.clear (i, 0, buffer.getNumSamples());
         updateFilterParams(smoothCF.getNextValue(),smoothRES.getNextValue());
     }
@@ -277,25 +257,21 @@ void BasicSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
 }
 
 //==============================================================================
-bool BasicSynthAudioProcessor::hasEditor() const
-{
+bool BasicSynthAudioProcessor::hasEditor() const{
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-juce::AudioProcessorEditor* BasicSynthAudioProcessor::createEditor()
-{
+juce::AudioProcessorEditor* BasicSynthAudioProcessor::createEditor(){
     return new BasicSynthAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void BasicSynthAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
-{
+void BasicSynthAudioProcessor::getStateInformation (juce::MemoryBlock& destData){
     std::unique_ptr <juce::XmlElement> xml (m_parameters.state.createXml());
     copyXmlToBinary(*xml, destData);
 }
 
-void BasicSynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
-{
+void BasicSynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes){
     std::unique_ptr <juce::XmlElement> t_parameters(getXmlFromBinary(data, sizeInBytes));
        
     if (t_parameters != nullptr) {
@@ -305,7 +281,6 @@ void BasicSynthAudioProcessor::setStateInformation (const void* data, int sizeIn
 
 //==============================================================================
 // This creates new instances of the plugin..
-juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
-{
+juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter(){
     return new BasicSynthAudioProcessor();
 }

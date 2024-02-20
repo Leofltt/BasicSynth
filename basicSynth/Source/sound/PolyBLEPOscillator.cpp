@@ -70,24 +70,21 @@ PolyBLEPOscillator::PolyBLEPOscillator()
 PolyBLEPOscillator::~PolyBLEPOscillator(){}
 
 void PolyBLEPOscillator::setFreq(double freq) {
-    if (freq != mFreq)
-    {
+    if (freq != mFreq) {
         mFreq = freq;
         updatePhaseInc();
     }
 }
 
 void PolyBLEPOscillator::setSR(double sr) {
-    if (sr != mSamplerate)
-    {
+    if (sr != mSamplerate) {
         mSamplerate = sr;
         updatePhaseInc();
     }
 }
 
 void PolyBLEPOscillator::setWF(int i) {
-    switch (i)
-    {
+    switch (i) {
         case 0:
             mWave = SINE;
             break;
@@ -102,8 +99,13 @@ void PolyBLEPOscillator::setWF(int i) {
             break;
         case 4: 
             mWave = COSINE; 
+            break;
         case 5:
             mWave = RAMP;
+            break;
+        case 6:
+            mWave = RECTANGLE;
+            break;
         default:
             mWave = SINE;
     }

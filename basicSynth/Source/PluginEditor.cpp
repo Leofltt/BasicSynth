@@ -13,8 +13,7 @@
 
 //==============================================================================
 BasicSynthAudioProcessorEditor::BasicSynthAudioProcessorEditor (BasicSynthAudioProcessor& p)
-: juce::AudioProcessorEditor (&p), processor (p), m_OscGUI(p), m_adsrGUI(p), m_filterGUI(p)
-{
+: juce::AudioProcessorEditor (&p), processor (p), m_OscGUI(p), m_adsrGUI(p), m_filterGUI(p) {
 
     setSize (600, 300);
     
@@ -23,21 +22,15 @@ BasicSynthAudioProcessorEditor::BasicSynthAudioProcessorEditor (BasicSynthAudioP
     addAndMakeVisible(&m_filterGUI);
 }
 
-BasicSynthAudioProcessorEditor::~BasicSynthAudioProcessorEditor()
-{
+BasicSynthAudioProcessorEditor::~BasicSynthAudioProcessorEditor() {
 }
 
 //==============================================================================
-void BasicSynthAudioProcessorEditor::paint (juce::Graphics& g)
-{
- 
-    g.fillAll(juce::Colours::black);
-
-    
+void BasicSynthAudioProcessorEditor::paint (juce::Graphics& g) {
+    g.fillAll(juce::Colours::black); 
 }
 
-void BasicSynthAudioProcessorEditor::resized()
-{
+void BasicSynthAudioProcessorEditor::resized() {
     juce::Rectangle<int> area = getLocalBounds();
     
     const int componentWidth = 200;
